@@ -83,7 +83,10 @@ export async function handleContact(req, res) {
   const chatId = process.env.TELEGRAM_CHAT_ID
   if (!token || !chatId) {
     console.error('[contact] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID are not set')
-    return json(res, 500, { ok: false, error: 'not_configured' })
+    // names only (never values) — helps spot typos in the hosting dashboard
+    const missing = [!token && 'TELEGRAM_BOT_TOKEN', !chatId && 'TELEGRAM_CHAT_ID'].filter(Boolean)
+    const similar = Object.keys(process.env).filter((k) => /TELEGRAM|BOT|CHAT/i.test(k))
+    return json(res, 500, { ok: false, error: 'not_configured', missing, similar, vercelEnv: process.env.VERCEL_ENV || null })
   }
 
   const ip = clientIp(req)
