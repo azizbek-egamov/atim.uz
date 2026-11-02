@@ -17,7 +17,7 @@ const json = (res, status, body) => {
 const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
 const clientIp = (req) => {
-  if (process.env.TRUST_PROXY) {
+  if (process.env.TRUST_PROXY || process.env.VERCEL) {
     const fwd = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim()
     if (fwd) return fwd
   }
@@ -91,7 +91,10 @@ export async function handleContact(req, res) {
 
   let data
   try {
-    data = JSON.parse(await readBody(req))
+    // serverless platforms (Vercel) may have parsed the body already
+    const raw = req.body !== undefined ? req.body : await readBody(req)
+    data = typeof raw === 'string' ? JSON.parse(raw) : Buffer.isBuffer(raw) ? JSON.parse(raw.toString('utf8')) : raw
+    if (!data || typeof data !== 'object') throw new Error('bad body')
   } catch (err) {
     res.once('finish', () => req.destroy())
     return json(res, err.status || 400, { ok: false, error: err.status === 413 ? 'too_large' : 'bad_request' })
