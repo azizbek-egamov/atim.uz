@@ -7,6 +7,7 @@ import solar from './assets/img/solar-panels.jpg'
 import industry from './assets/img/project-industry.svg'
 import certReg from './assets/img/cert-registration.jpg'
 import certIt from './assets/img/cert-itpark.jpg'
+import galleryReplace from './assets/img/IMG_20261102_213401_617.jpg'
 
 export const PHONES = [
   { label: '+998 91 269 59 59', href: 'tel:+998912695959' },
@@ -45,7 +46,7 @@ export const GALLERY = [
   { img: campus, caption: 'slide_campus' },
   { img: building, caption: 'g_building' },
   { img: hall, caption: 'slide_hall' },
-  { img: office, caption: 'slide_office' },
+  { img: galleryReplace, caption: 'slide_office' },
 ]
 
 export const ROADMAP = [
