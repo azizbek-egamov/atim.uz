@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import Reveal from './Reveal'
 import Rich from './Rich'
 import Eyebrow from './Eyebrow'
-import office from '../assets/img/office-building.jpg'
+import office from '../assets/img/IMG_20261102_213401_617.jpg'
 
 export default function About() {
   const { t } = useTranslation()
